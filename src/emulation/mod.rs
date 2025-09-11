@@ -89,6 +89,7 @@ define_emulation_enum!(
     Chrome135 => "chrome_135",
     Chrome136 => "chrome_136",
     Chrome137 => "chrome_137",
+    Chrome140 => "chrome_140",
 
     SafariIos17_2 => "safari_ios_17.2",
     SafariIos17_4_1 => "safari_ios_17.4.1",
