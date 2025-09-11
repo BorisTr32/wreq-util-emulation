@@ -302,6 +302,8 @@ impl wreq::EmulationFactory for EmulationOption {
             Emulation::Chrome135 => v135::emulation,
             Emulation::Chrome136 => v136::emulation,
             Emulation::Chrome137 => v137::emulation,
+            Emulation::Chrome140 => v140::emulation, // Добавить эту строку
+
 
             Emulation::SafariIos17_2 => safari_ios_17_2::emulation,
             Emulation::SafariIos17_4_1 => safari_ios_17_4_1::emulation,
