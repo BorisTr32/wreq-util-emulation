@@ -113,7 +113,7 @@ pub const EXTENSION_PERMUTATION_INDICES: &[ExtensionType] = &[
 #[cfg(feature = "tls-randomization")]
 fn shuffle_extensions(extensions: &[ExtensionType]) -> Vec<ExtensionType> {
     let mut ext = extensions.to_vec();
-    let mut rng = super::super::super::rand::fast_random();
+    let mut rng = std::ptr::addr_of!(extensions) as u64 ^ std::process::id() as u64;
     
     for i in (1..ext.len()).rev() {
         let j = (rng % (i + 1) as u64) as usize;
@@ -187,11 +187,18 @@ impl From<FirefoxTlsConfig> for TlsOptions {
             .pre_shared_key(val.pre_shared_key)
             .psk_skip_session_ticket(val.psk_skip_session_tickets)
             .psk_dhe_ke(val.psk_dhe_ke)
-            .prefer_chacha20(true)
-            #[cfg(feature = "tls-randomization")]
-            .extension_permutation(&shuffle_extensions(val.extension_permutation))
-            #[cfg(not(feature = "tls-randomization"))]
-            .extension_permutation(val.extension_permutation)
+            .prefer_chacha20(true);
+
+        #[cfg(feature = "tls-randomization")]
+        {
+            builder = builder.extension_permutation(&shuffle_extensions(val.extension_permutation));
+        }
+        #[cfg(not(feature = "tls-randomization"))]
+        {
+            builder = builder.extension_permutation(val.extension_permutation);
+        }
+
+        builder = builder
             .aes_hw_override(true)
             .random_aes_hw_override(true);
 
