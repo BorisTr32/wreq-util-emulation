@@ -18,6 +18,7 @@ targets = ["x86_64-unknown-linux-gnu"]
 
 [features]
 default = ["emulation", "gzip", "brotli", "deflate", "zstd"]
+tls-randomization = []
 
 # Emulation devices
 emulation = ["dep:typed-builder"]
