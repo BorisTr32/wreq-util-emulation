@@ -91,18 +91,6 @@ pub const DELEGATED_CREDENTIALS: &str = join!(
 pub const RECORD_SIZE_LIMIT: u16 = 0x4001;
 
 pub const EXTENSION_PERMUTATION_INDICES: &[ExtensionType] = &[
-    #[cfg(feature = "tls-randomization")]
-fn shuffle_extensions(extensions: &[ExtensionType]) -> Vec<ExtensionType> {
-    let mut ext = extensions.to_vec();
-    let mut rng = super::super::super::rand::fast_random();
-    
-    for i in (1..ext.len()).rev() {
-        let j = (rng % (i + 1) as u64) as usize;
-        ext.swap(i, j);
-        rng = rng.wrapping_mul(1103515245).wrapping_add(12345);
-    }
-    ext
-}
     ExtensionType::SERVER_NAME,
     ExtensionType::EXTENDED_MASTER_SECRET,
     ExtensionType::RENEGOTIATE,
@@ -121,6 +109,19 @@ fn shuffle_extensions(extensions: &[ExtensionType]) -> Vec<ExtensionType> {
     ExtensionType::CERT_COMPRESSION,
     ExtensionType::ENCRYPTED_CLIENT_HELLO,
 ];
+
+#[cfg(feature = "tls-randomization")]
+fn shuffle_extensions(extensions: &[ExtensionType]) -> Vec<ExtensionType> {
+    let mut ext = extensions.to_vec();
+    let mut rng = super::super::super::rand::fast_random();
+    
+    for i in (1..ext.len()).rev() {
+        let j = (rng % (i + 1) as u64) as usize;
+        ext.swap(i, j);
+        rng = rng.wrapping_mul(1103515245).wrapping_add(12345);
+    }
+    ext
+}
 
 #[derive(TypedBuilder)]
 pub struct FirefoxTlsConfig {
