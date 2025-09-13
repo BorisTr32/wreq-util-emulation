@@ -110,19 +110,6 @@ pub const EXTENSION_PERMUTATION_INDICES: &[ExtensionType] = &[
     ExtensionType::ENCRYPTED_CLIENT_HELLO,
 ];
 
-#[cfg(feature = "tls-randomization")]
-fn shuffle_extensions(extensions: &[ExtensionType]) -> Vec<ExtensionType> {
-    let mut ext = extensions.to_vec();
-    let mut rng = std::ptr::addr_of!(extensions) as u64 ^ std::process::id() as u64;
-    
-    for i in (1..ext.len()).rev() {
-        let j = (rng % (i + 1) as u64) as usize;
-        ext.swap(i, j);
-        rng = rng.wrapping_mul(1103515245).wrapping_add(12345);
-    }
-    ext
-}
-
 #[derive(TypedBuilder)]
 pub struct FirefoxTlsConfig {
     #[builder(default = SIGALGS_LIST)]
@@ -187,18 +174,8 @@ impl From<FirefoxTlsConfig> for TlsOptions {
             .pre_shared_key(val.pre_shared_key)
             .psk_skip_session_ticket(val.psk_skip_session_tickets)
             .psk_dhe_ke(val.psk_dhe_ke)
-            .prefer_chacha20(true);
-
-        #[cfg(feature = "tls-randomization")]
-        {
-            builder = builder.extension_permutation(&shuffle_extensions(val.extension_permutation));
-        }
-        #[cfg(not(feature = "tls-randomization"))]
-        {
-            builder = builder.extension_permutation(val.extension_permutation);
-        }
-
-        builder = builder
+            .prefer_chacha20(true)
+            .extension_permutation(val.extension_permutation)
             .aes_hw_override(true)
             .random_aes_hw_override(true);
 
