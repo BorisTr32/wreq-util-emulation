@@ -136,6 +136,7 @@ define_emulation_enum!(
     Firefox136 => "firefox_136",
     FirefoxPrivate136 => "firefox_private_136",
     Firefox139 => "firefox_139",
+    Firefox142 => "firefox_142",
 
     Opera116 => "opera_116",
     Opera117 => "opera_117",
