@@ -137,6 +137,7 @@ define_emulation_enum!(
     FirefoxPrivate136 => "firefox_private_136",
     Firefox139 => "firefox_139",
     Firefox142 => "firefox_142",
+    Firefox143 => "firefox_143",
 
     Opera116 => "opera_116",
     Opera117 => "opera_117",
@@ -352,6 +353,7 @@ impl wreq::EmulationFactory for EmulationOption {
             Emulation::FirefoxPrivate136 => ff_private_136::emulation,
             Emulation::Firefox139 => ff139::emulation,
             Emulation::Firefox142 => ff142::emulation,
+            Emulation::Firefox143 => ff143::emulation,
 
             Emulation::Opera116 => opera116::emulation,
             Emulation::Opera117 => opera117::emulation,
