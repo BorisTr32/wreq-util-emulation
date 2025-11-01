@@ -52,9 +52,13 @@ pub fn header_initializer_with_zstd_priority(
         emulation_os.platform(),
         emulation_os.is_mobile()
     );
+    headers.insert(
+        HeaderName::from_static("upgrade-insecure-requests"),
+        HeaderValue::from_static("1"),
+    );
     header_chrome_ua!(headers, ua);
-    header_chrome_sec_fetch!(headers);
     header_chrome_accpet!(zstd, headers);
+    header_chrome_sec_fetch!(headers);
     headers.insert(
         HeaderName::from_static("priority"),
         HeaderValue::from_static("u=0, i"),
