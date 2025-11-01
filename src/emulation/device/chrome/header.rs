@@ -12,9 +12,13 @@ pub fn header_initializer(
         emulation_os.platform(),
         emulation_os.is_mobile()
     );
+    headers.insert(
+        HeaderName::from_static("upgrade-insecure-requests"),
+        HeaderValue::from_static("1"),
+    );
     header_chrome_ua!(headers, ua);
-    header_chrome_sec_fetch!(headers);
     header_chrome_accpet!(headers);
+    header_chrome_sec_fetch!(headers);
     headers
 }
 
