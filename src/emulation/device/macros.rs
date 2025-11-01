@@ -9,9 +9,10 @@ macro_rules! header_chrome_sec_ch_ua {
 
 macro_rules! header_chrome_sec_fetch {
     ($headers:expr) => {
-        $headers.insert("sec-fetch-dest", HeaderValue::from_static("document"));
-        $headers.insert("sec-fetch-mode", HeaderValue::from_static("navigate"));
         $headers.insert("sec-fetch-site", HeaderValue::from_static("none"));
+        $headers.insert("sec-fetch-mode", HeaderValue::from_static("navigate"));
+        $headers.insert("sec-fetch-user", HeaderValue::from_static("?1"));
+        $headers.insert("sec-fetch-dest", HeaderValue::from_static("document"));
     };
 }
 
@@ -23,7 +24,7 @@ macro_rules! header_chrome_ua {
 
 macro_rules! header_chrome_accpet {
     ($headers:expr) => {
-        $headers.insert(ACCEPT, HeaderValue::from_static("text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"));
+        $headers.insert(ACCEPT, HeaderValue::from_static("text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7"));
         #[cfg(all(feature = "gzip", feature = "deflate", feature = "brotli"))]
         $headers.insert(
             ACCEPT_ENCODING,
@@ -32,7 +33,7 @@ macro_rules! header_chrome_accpet {
         $headers.insert(ACCEPT_LANGUAGE, HeaderValue::from_static("en-US,en;q=0.9"));
     };
     (zstd, $headers:expr) => {
-        $headers.insert(ACCEPT, HeaderValue::from_static("text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"));
+        $headers.insert(ACCEPT, HeaderValue::from_static("text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7"));
         #[cfg(all(
             feature = "gzip",
             feature = "deflate",
